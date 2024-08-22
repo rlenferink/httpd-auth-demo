@@ -1,0 +1,47 @@
+---
+
+services:
+  proxy-httpd:
+    image: docker.io/library/httpd:2.4 
+    container_name: httpd-auth-demo-proxy-httpd
+    ports:
+      - "9999:80"
+    security_opt:
+      - label=disable
+    volumes:
+      - ./httpd/httpd.conf:/usr/local/apache2/conf/httpd.conf
+      - ./httpd/custom-vhost.conf:/usr/local/apache2/conf/extra/custom-vhost.conf
+#    networks:
+#      - frontend
+#      - web
+
+  proxy-nginx:
+    image: docker.io/library/nginx:1.27.0-alpine 
+    container_name: httpd-auth-demo-proxy-nginx
+    ports:
+      - "9998:80"
+    security_opt:
+      - label=disable
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - /etc/hosts:/etc/hosts:ro
+#    networks:
+#      - frontend
+#      - web
+
+  web:
+    image: docker.io/library/httpd:2.4 
+    container_name: httpd-auth-demo-web
+    ports:
+      - "9997:80"
+    security_opt:
+      - label=disable
+    volumes:
+      - ./web/source:/usr/local/apache2/htdocs
+#    networks:
+#      - web
+
+#networks:
+#  frontend:
+#    external: true
+#  web:
