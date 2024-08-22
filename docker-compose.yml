@@ -24,7 +24,7 @@ services:
       - label=disable
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
-      - /etc/hosts:/etc/hosts:ro
+      - /etc/hosts:/etc/hosts:ro # When proper DNS is in place this must be removed
 #    networks:
 #      - frontend
 #      - web
